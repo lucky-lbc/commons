@@ -1,4 +1,4 @@
-module github.com/juggleim/commons
+module github.com/lucky-lbc/commons
 
 go 1.23.2
 
