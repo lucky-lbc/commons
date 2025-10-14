@@ -4,11 +4,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/juggleim/commons/caches"
-	"github.com/juggleim/commons/dbcommons"
-	"github.com/juggleim/commons/emailengines"
-	"github.com/juggleim/commons/smsengines"
-	"github.com/juggleim/commons/transengines"
+	"github.com/lucky-lbc/commons/caches"
+	"github.com/lucky-lbc/commons/dbcommons"
+	"github.com/lucky-lbc/commons/emailengines"
+	"github.com/lucky-lbc/commons/smsengines"
+	"github.com/lucky-lbc/commons/transengines"
 )
 
 var appCache *caches.LruCache

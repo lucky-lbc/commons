@@ -7,7 +7,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/juggleim/commons/tools"
+	"github.com/lucky-lbc/commons/tools"
 )
 
 type BdTransEngine struct {

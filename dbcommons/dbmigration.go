@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	utils "github.com/juggleim/commons/tools"
+	utils "github.com/lucky-lbc/commons/tools"
 )
 
 //go:embed sqls/*

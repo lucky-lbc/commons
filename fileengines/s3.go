@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/juggleim/commons/tools"
+	"github.com/lucky-lbc/commons/tools"
 )
 
 type S3Config struct {
