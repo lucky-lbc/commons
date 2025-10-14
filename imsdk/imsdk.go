@@ -6,7 +6,7 @@ import (
 	"github.com/lucky-lbc/commons/configures"
 	"github.com/lucky-lbc/commons/dbcommons"
 
-	juggleimsdk "github.com/juggleim/imserver-sdk-go"
+	juggleimsdk "github.com/lucky-lbc/imserver-sdk-go"
 )
 
 var imsdkMap *sync.Map
