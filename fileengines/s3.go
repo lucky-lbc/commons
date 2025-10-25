@@ -2,6 +2,8 @@ package fileengines
 
 import (
 	"fmt"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -32,6 +34,8 @@ type S3Storage struct {
 
 type Option func(*S3Storage)
 
+func (s *S3Storage) Bucket() string { return s.bucket }
+func (s *S3Storage) Region() string { return s.region }
 func WithAccessKey(accessKey string) Option {
 	return func(o *S3Storage) {
 		o.accessKey = accessKey
@@ -100,6 +104,43 @@ func (s *S3Storage) putPreSignURL(fileType string, dir string) (url string, err 
 	url, err = req.Presign(15 * time.Minute)
 
 	return
+}
+
+func (s *S3Storage) UploadFile(localPath string) (url string, err error) {
+	file, err := os.Open(localPath)
+	if err != nil {
+		return "", fmt.Errorf("open file: %w", err)
+	}
+	defer file.Close()
+
+	sess, err := session.NewSession(&aws.Config{
+		Credentials:      credentials.NewStaticCredentials(s.accessKey, s.secretKey, ""),
+		Endpoint:         aws.String(s.endpoint),
+		Region:           aws.String(s.region),
+		DisableSSL:       aws.Bool(s.disableSSL),
+		S3ForcePathStyle: aws.Bool(s.s3forcePathStyle), //virtual-host style方式
+	})
+	if err != nil {
+		return "", fmt.Errorf("create session: %w", err)
+	}
+
+	uploader := s3manager.NewUploader(sess)
+
+	key := "/images/" + filepath.Base(localPath) // 可按需调整子目录
+	result, err := uploader.Upload(&s3manager.UploadInput{
+		Bucket:      aws.String(s.bucket),
+		Key:         aws.String(key),
+		Body:        file,
+		ContentType: aws.String("application/octet-stream"), // 如知道真实 MIME 可再改
+		ACL:         aws.String("public-read"),              // 公开读，私有桶可去掉
+	})
+	if err != nil {
+		return "", fmt.Errorf("s3 upload: %w", err)
+	}
+
+	_ = os.Remove(localPath)
+
+	return result.Location, nil
 }
 
 func (s *S3Storage) PreSignedURL(fileType string, dir string) (url string, err error) {
