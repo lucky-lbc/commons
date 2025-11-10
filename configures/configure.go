@@ -7,8 +7,9 @@ import (
 )
 
 type AppConfig struct {
-	Port      int `yaml:"port"`
-	AdminPort int `yaml:"adminPort"`
+	Port       int  `yaml:"port"`
+	AdminPort  int  `yaml:"adminPort"`
+	Commercial bool `yaml:"commercial"`
 
 	Log struct {
 		LogPath string `yaml:"logPath"`
